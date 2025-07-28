@@ -20,8 +20,7 @@ def get_user_input():
                 print("Please enter a number between 1 and 1000.")
         except ValueError:
             print("Invalid input. Please enter a valid integer.") #exception handling for non-integer inputs
-        finally:
-            print("Input completed.") 
+
 
 def fizzbuzz_plus(n):
     fizz_count = 0
@@ -48,4 +47,4 @@ def fizzbuzz_plus(n):
     print(f"FizzBuzz count: {fizzbuzz_count}")
     print(f"Number count: {number_count}")
 
-fizzbuzz_plus(get_user_input())  #Get user input and execute FizzBuzz Plus logic
+fizzbuzz_plus(get_user_input())  #Get user input and execute fizzbuzz_plus logic
