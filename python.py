@@ -1,1 +1,0 @@
-print("Hello, World!\nThis is CuongPT24 speaking!")
