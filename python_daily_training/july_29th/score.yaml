@@ -1,0 +1,17 @@
+name: SGC-1
+scores:
+  linux:
+    Cuong: 100
+    Nam: 99
+    Nam: 98
+    Lan: 
+  network:
+    Cuong: 100
+    Nam: 99
+    Nam: 98
+  sqa:
+
+mentors:
+- Vu
+- Trang
+- Nam

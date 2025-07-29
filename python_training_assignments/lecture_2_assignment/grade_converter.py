@@ -30,5 +30,6 @@ def grade_converter(score):
             return "D"
         case score if score < 60:
             return "F"
-        
-print(grade_converter(get_user_score()))
+if __name__ == "__main__":
+    #Run the grade converter 
+    print(grade_converter(get_user_score()))
