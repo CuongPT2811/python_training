@@ -20,9 +20,20 @@ def average(subject):
     print(f"Scores in {subject}:", scores)
     
     return sum(scores) / len(scores) if scores else 0
-def is_passed():
-    pass
+
+def is_passed(student, threshold=60):
+    scores = []
+    for score in DATA['scores'].values():
+        if score is not None:
+            s = score.get(student, None)
+            if s is not None:
+                scores.append(s)
+    print(scores)
+    # Return True if student passed all subjects, False otherwise
+    return all(s >= threshold for s in scores) if scores else False
+    
 
 
 if __name__ == "__main__":
     print("Average score in Linux:", average('linux'))
+    print("Passed students in Linux:", is_passed('Cuong'))
