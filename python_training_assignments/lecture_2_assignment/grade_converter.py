@@ -8,7 +8,7 @@ def get_user_score():
     #Get user score 
     while True:
         try:
-            score = int(input("Enter a score (0 <= N <= 100): "))
+            score = float(input("Enter a score (0 <= N <= 100): "))
             if 0 <= score <= 100:
                 return score
             else:
@@ -30,4 +30,5 @@ def grade_converter(score):
             return "D"
         case score if score < 60:
             return "F"
+        
 print(grade_converter(get_user_score()))
