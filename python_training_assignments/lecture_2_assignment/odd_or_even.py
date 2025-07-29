@@ -15,9 +15,6 @@ def get_user_input():
 
 
 def is_odd_or_even(n):
-    if n % 2 == 0:
-        return "even"
-    else:
-        return "odd"
+    return "even" if n % 2 == 0 else "odd" #Return "even" if n is divisible by 2, else return "odd" - Tenary operator 
 
 print(is_odd_or_even(get_user_input())) #Print out the result 

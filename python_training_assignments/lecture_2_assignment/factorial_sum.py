@@ -28,5 +28,5 @@ def factorial_sum(number):
     
     print(f"Factorial of {number} is: {factorial}")
     print(f"Sum of all numbers from 1 to {number} is: {total_sum}")
-
-factorial_sum(get_user_input())
+if __name__ == "__main__":
+    factorial_sum(get_user_input())

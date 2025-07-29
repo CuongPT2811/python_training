@@ -27,5 +27,5 @@ def guess_game():
                 break
         except ValueError:
             print("Invalid input. Please enter a valid integer.")
-
-guess_game()
+if __name__ == "__main__":
+    guess_game()
