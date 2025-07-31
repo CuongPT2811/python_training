@@ -21,7 +21,7 @@ class Book:
 class Library:
     def __init__(self, csv_filepath):
         self.books = []
-        try: # Load data
+        try: # Load data - use a different function for clearance
             with open(csv_filepath, mode='r', newline='', encoding='utf-8') as file:
                 reader = csv.DictReader(file)
                 for row in reader:
