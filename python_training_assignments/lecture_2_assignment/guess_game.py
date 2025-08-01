@@ -5,6 +5,8 @@ After each guess, print "Too high!" or "Too low!" or "Correct!"
 At the end, print the number of attempts it took to guess correctly.
 """
 import random #Module to generate random numbers
+
+ 
 def guess_game():
     
     secret_number = random.randint(1, 100) #Function to get a random integer, from 1 to 100
@@ -27,5 +29,6 @@ def guess_game():
                 break
         except ValueError:
             print("Invalid input. Please enter a valid integer.")
+
 if __name__ == "__main__":
     guess_game()

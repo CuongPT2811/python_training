@@ -21,6 +21,7 @@ def arithmetic_operations(a, b):
         print("Quotient: Cannot divide by zero.")
     finally:
         print("Arithmetic operations completed.")
-
-a, b = get_user_input(0, 0)  #Placeholders for a and b
-arithmetic_operations(a, b)  #Execute arithmetic operations
+        
+if __name__ == "__main__":
+    a, b = get_user_input(0, 0)  #Placeholders for a and b
+    arithmetic_operations(a, b)  #Execute arithmetic operations

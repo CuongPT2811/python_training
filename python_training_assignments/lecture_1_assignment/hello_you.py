@@ -10,4 +10,5 @@ def greet_user():
     #Greet the user
     print(f"Hello, {name.upper()}! Nice to meet you!") #.upper() converts the name to uppercase, can be removed
 
-greet_user() # Execute above function
+if __name__ == '__main__':
+    greet_user() #Execute above function

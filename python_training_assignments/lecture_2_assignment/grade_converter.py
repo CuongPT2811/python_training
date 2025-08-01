@@ -16,7 +16,6 @@ def get_user_score():
         except ValueError:
             print("Invalid score input. Please enter a valid score.") #exception handling for non-integer inputs
 
-
 def grade_converter(score):
     #Convert score to grade
     match score:
@@ -30,6 +29,7 @@ def grade_converter(score):
             return "D"
         case score if score < 60:
             return "F"
+        
 if __name__ == "__main__":
     #Run the grade converter 
     print(grade_converter(get_user_score()))

@@ -5,7 +5,7 @@ def is_prime(number, divisor=2):
     Check if a number is prime or not using recursion.
     """
 
-    # Base cases
+    #Base cases
     if number < 2:
         return False
     if number == 2:
@@ -15,7 +15,7 @@ def is_prime(number, divisor=2):
     if divisor * divisor > number:
         return True
     
-    # Recursive step
+    #Recursive step
     return is_prime(number, divisor + 1)
 
 def prime_list(limit):
@@ -47,10 +47,10 @@ def get_limit_input():
 def main():
     """Main function to run the program, get limit input, and print results."""
     
-    # Get validated input from user
+    #Get validated input from user
     limit = get_limit_input()
 
-    # Generate the list and print results
+    #Generate the list and print results
     primes = prime_list(limit)
     print(f"\nPrime numbers less than or equal to {limit}:")
     print(primes)

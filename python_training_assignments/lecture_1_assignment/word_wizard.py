@@ -15,4 +15,5 @@ def print_sentence_operations(sentence):
     print(f"The last word of the sentence: {sentence.split()[-1]}") #Get the last word by splitting and return last element
     print(f"After reversing the sentence: {' '.join(sentence.split()[::-1])}") #Reverse the sentence by splitting and joining
 
-print_sentence_operations(get_user_sentence())  #Get the user sentence and perform operations on it
+if __name__ == '__main__':
+    print_sentence_operations(get_user_sentence())  #Get the user sentence and perform operations on it

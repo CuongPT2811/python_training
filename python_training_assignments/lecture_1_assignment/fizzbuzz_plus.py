@@ -21,7 +21,6 @@ def get_user_input():
         except ValueError:
             print("Invalid input. Please enter a valid integer.") #exception handling for non-integer inputs
 
-
 def fizzbuzz_plus(n):
     fizz_count = 0
     buzz_count = 0
@@ -47,4 +46,5 @@ def fizzbuzz_plus(n):
     print(f"FizzBuzz count: {fizzbuzz_count}")
     print(f"Number count: {number_count}")
 
-fizzbuzz_plus(get_user_input())  #Get user input and execute fizzbuzz_plus logic
+if __name__ == '__main__':
+    fizzbuzz_plus(get_user_input())  #Get user input and execute fizzbuzz_plus logic
