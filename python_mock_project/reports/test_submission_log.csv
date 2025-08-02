@@ -1,0 +1,63 @@
+browser_start_time,browser_end_time,duration_seconds,test_status,missing_fields
+2025-08-02 22:50:46,2025-08-02 22:50:57,10.76,fail,Form submission failed
+2025-08-02 22:50:57,2025-08-02 22:50:57,0.00,fail,"Email, Mobile Number, Subjects"
+2025-08-02 22:53:50,2025-08-02 22:54:01,10.82,fail,Form submission failed
+2025-08-02 22:54:21,2025-08-02 22:54:42,21.44,fail,Form submission failed
+2025-08-02 22:54:44,2025-08-02 22:55:29,44.60,fail,Form submission failed
+2025-08-02 22:55:34,2025-08-02 22:56:13,39.14,fail,Form submission failed
+2025-08-02 22:57:07,2025-08-02 22:57:22,14.35,fail,Form submission failed
+2025-08-02 22:57:24,2025-08-02 22:57:32,8.91,fail,Form submission failed
+2025-08-02 22:57:34,2025-08-02 22:57:47,13.33,fail,Form submission failed
+2025-08-02 22:57:51,2025-08-02 22:58:21,30.00,fail,Unknown error
+2025-08-02 22:58:25,2025-08-02 22:59:09,44.51,fail,Form submission failed
+2025-08-02 23:05:42,2025-08-02 23:05:59,16.50,success,
+2025-08-02 23:06:03,2025-08-02 23:06:45,42.28,fail,Form submission failed
+2025-08-02 23:07:25,2025-08-02 23:07:53,27.57,fail,Element not found
+2025-08-02 23:08:15,2025-08-02 23:08:51,36.05,fail,Form submission failed
+2025-08-02 23:08:58,2025-08-02 23:09:09,10.58,fail,Form submission failed
+2025-08-02 23:09:59,2025-08-02 23:10:14,15.05,success,
+2025-08-02 23:11:57,2025-08-02 23:12:20,23.14,fail,Element not found
+2025-08-02 23:19:46,2025-08-02 23:20:06,20.34,fail,Form submission failed
+2025-08-02 23:20:08,2025-08-02 23:20:20,12.43,fail,Form submission failed
+2025-08-02 23:20:22,2025-08-02 23:21:02,39.99,fail,Form submission failed
+2025-08-02 23:25:39,2025-08-02 23:25:59,20.12,fail,Unknown error
+2025-08-02 23:26:08,2025-08-02 23:26:18,9.73,fail,Element not found
+2025-08-02 23:26:22,2025-08-02 23:27:59,96.83,fail,Form submission failed
+2025-08-02 23:30:41,2025-08-02 23:30:55,13.41,fail,Form submission failed
+2025-08-02 23:30:57,2025-08-02 23:31:09,11.99,success,
+2025-08-02 23:31:11,2025-08-02 23:31:25,13.26,fail,Form submission failed
+2025-08-02 23:31:26,2025-08-02 23:31:39,12.43,success,
+2025-08-02 23:31:41,2025-08-02 23:31:55,13.88,fail,Form submission failed
+2025-08-02 23:31:57,2025-08-02 23:32:27,30.00,fail,Unknown error
+2025-08-02 23:32:30,2025-08-02 23:32:42,12.26,fail,Form submission failed
+2025-08-02 23:32:44,2025-08-02 23:33:21,37.36,fail,Form submission failed
+2025-08-02 23:33:39,2025-08-02 23:33:48,9.62,fail,Form submission failed
+2025-08-02 23:34:30,2025-08-02 23:34:47,16.70,fail,Form submission failed
+2025-08-02 23:34:48,2025-08-02 23:35:09,20.81,fail,Element not found
+2025-08-02 23:35:12,2025-08-02 23:35:21,8.43,fail,Form submission failed
+2025-08-02 23:35:22,2025-08-02 23:35:31,9.00,fail,Form submission failed
+2025-08-02 23:35:33,2025-08-02 23:35:39,6.72,fail,Unknown error
+2025-08-02 23:36:06,2025-08-02 23:36:19,12.98,success,
+2025-08-02 23:36:22,2025-08-02 23:36:32,10.13,fail,Form submission failed
+2025-08-02 23:36:33,2025-08-02 23:36:43,9.76,fail,Form submission failed
+2025-08-02 23:36:45,2025-08-02 23:36:54,9.09,fail,Form submission failed
+2025-08-02 23:36:55,2025-08-02 23:37:11,15.61,fail,Form submission failed
+2025-08-02 23:37:13,2025-08-02 23:37:24,11.02,fail,Form submission failed
+2025-08-02 23:37:26,2025-08-02 23:37:39,13.01,success,
+2025-08-02 23:54:17,2025-08-02 23:54:42,24.35,fail,Unknown error
+2025-08-02 23:54:45,2025-08-02 23:55:05,20.17,fail,Unknown error
+2025-08-02 23:55:09,2025-08-02 23:55:19,10.61,fail,Unknown error
+2025-08-02 23:57:07,2025-08-02 23:57:33,25.97,fail,Element not found
+2025-08-02 23:58:00,2025-08-02 23:58:10,9.50,fail,Unknown error
+2025-08-02 23:58:12,2025-08-02 23:58:26,14.76,fail,Unknown error
+2025-08-02 23:58:28,2025-08-02 23:58:40,11.88,fail,Form submission failed
+2025-08-02 23:58:43,2025-08-02 23:59:04,20.19,success,
+2025-08-03 00:08:03,2025-08-03 00:08:31,28.49,fail,Element not found
+2025-08-03 00:08:35,2025-08-03 00:09:14,39.25,fail,Form submission failed
+2025-08-03 00:10:05,2025-08-03 00:10:17,12.33,fail,Unknown error
+2025-08-03 00:13:05,2025-08-03 00:13:48,42.81,fail,Form submission failed
+2025-08-03 00:45:57,2025-08-03 00:46:24,27.20,fail,Element not found
+2025-08-03 00:46:40,2025-08-03 00:47:07,26.72,fail,Element not found
+2025-08-03 00:47:31,2025-08-03 00:48:15,44.01,fail,Form submission failed
+2025-08-03 00:49:09,2025-08-03 00:49:22,12.65,fail,Element not found
+2025-08-03 00:50:05,2025-08-03 00:50:26,21.44,success,
