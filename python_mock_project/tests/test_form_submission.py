@@ -1,89 +1,137 @@
+
 import pytest
 from playwright.sync_api import Page, expect
 from utils.data_generator import generate_user_profile
 import time
 
-# URL của trang web mục tiêu
+# Target URL
 URL = "https://demoqa.com/automation-practice-form"
+
+first_name_ID =" #firstName"
+last_name_ID = "#lastName"
+user_email_ID = "#userEmail"
+user_number_ID = "#userNumber"
+date_of_birth_input_ID = "#dateOfBirthInput"
+subjects_input_ID = "#subjectsInput"
+upload_picture_ID = "#uploadPicture"
+state_ID = "#state"
+city_ID = "#city"
+current_address_ID = "#currentAddress"
+submit_ID = "#submit"
+
 
 def test_successful_form_submission(page: Page):
     """
-    Kiểm thử toàn bộ quy trình điền và gửi biểu mẫu đăng ký sinh viên.
+    Test form filling process, submit student registration form using CSS selectors
     """
-    # 1. Tạo dữ liệu người dùng ngẫu nhiên
+    # 1. Generate random user data
     user_data = generate_user_profile()
 
-    # 2. Mở trang web
+    # 2. Go to web page
     page.goto(URL)
-    # Trang web có thể có quảng cáo che phủ, cần đóng chúng nếu có
-    # Dòng này có thể cần thiết tùy thuộc vào trạng thái của trang web
+    # Remove ads to avoid elements being hidden
     page.evaluate("() => { document.querySelectorAll('#adplus-anchor,.adsbygoogle').forEach(el => el.remove()); }")
 
+    # 3. Fill the text fields using CSS selectors with IDs
+    page.locator(first_name_ID).fill(user_data["first_name"])
+    page.locator(last_name_ID).fill(user_data["last_name"])
+    page.locator(user_email_ID).fill(user_data["email"])
+    page.locator(user_number_ID).fill(user_data["mobile"])
+    page.locator(current_address_ID).fill(user_data["address"])
 
-    # 3. Điền các trường văn bản
-    page.get_by_placeholder("First Name").fill(user_data["first_name"])
-    page.get_by_placeholder("Last Name").fill(user_data["last_name"])
-    page.get_by_placeholder("name@example.com").fill(user_data["email"])
-    page.get_by_placeholder("Mobile Number").fill(user_data["mobile"])
-    page.get_by_placeholder("Current Address").fill(user_data["address"])
+    # 4. Choose gender (Radio Button) using CSS selectors
+    # Map gender to corresponding radio button labels
+    gender_mapping = {
+        "Male": "#gender-radio-1",
+        "Female": "#gender-radio-2", 
+        "Other": "#gender-radio-3"
+    }
+    
+    # Click the label associated with the radio button (since radio inputs are hidden)
+    gender_label_mapping = {
+        "Male": "label[for='gender-radio-1']",
+        "Female": "label[for='gender-radio-2']",
+        "Other": "label[for='gender-radio-3']"
+    }
+    
+    if user_data["gender"] in gender_label_mapping:
+        page.locator(gender_label_mapping[user_data["gender"]]).click()
 
-    # 4. Chọn Giới tính (Radio Button)
-    page.get_by_text(user_data["gender"], exact=True).check()
-
-    # 5. Chọn Ngày sinh (Date Picker)
-    # Chuyển đổi đối tượng datetime thành chuỗi theo định dạng "dd Mmm yyyy"
+    # 5. Choose date of birth (Date Picker)
     dob_string = user_data["date_of_birth"].strftime('%d %b %Y')
-    date_input = page.locator("#dateOfBirthInput")
-    date_input.fill(dob_string)
-    page.keyboard.press("Enter") # Đóng date picker
+    page.locator(date_of_birth_input_ID).fill(dob_string)
+    page.keyboard.press("Enter")
 
-    # 6. Chọn Môn học (Autocomplete Input)
-    subjects_input = page.locator("#subjectsInput")
+    # 6. Choose the subjects
+    subjects_input = page.locator(subjects_input_ID)
     for subject in user_data["subjects"]:
         subjects_input.fill(subject)
-        # Playwright sẽ tự động chờ phần tử đề xuất xuất hiện
-        page.get_by_text(subject, exact=True).click()
+        subjects_input.press("Enter")
 
-    # 7. Chọn Sở thích (Checkbox)
-    for hobby in user_data["hobbies"]:
-        page.get_by_text(hobby, exact=True).check()
+    # Scroll submit button into view to avoid element not visible/stable error
+    page.locator(submit_ID).scroll_into_view_if_needed()
 
-    # 8. Tải ảnh lên
-    page.locator("#uploadPicture").set_input_files(user_data["picture_path"])
-
-    # 9. Chọn Bang và Thành phố (Dependent Dropdowns)
-    # Cần cuộn xuống để các phần tử này hiển thị trong viewport
-    page.locator("#submit").scroll_into_view_if_needed()
+    # 7. Choose hobbies (Checkbox) using CSS selectors
+    # Map hobbies to corresponding checkbox labels
+    hobby_label_mapping = {
+        "Sports": "label[for='hobbies-checkbox-1']",
+        "Reading": "label[for='hobbies-checkbox-2']",
+        "Music": "label[for='hobbies-checkbox-3']"
+    }
     
-    state_dropdown = page.locator("#state")
-    state_dropdown.click()
-    page.get_by_text(user_data["state"], exact=True).click()
+    for hobby in user_data["hobbies"]:
+        if hobby in hobby_label_mapping:
+            # Use force=True to make sure clickable even if being hidden
+            page.locator(hobby_label_mapping[hobby]).click(force=True)
 
-    city_dropdown = page.locator("#city")
-    city_dropdown.click()
+    # 8. Upload picture
+    page.locator(upload_picture_ID).set_input_files(user_data["picture_path"])
+
+    # 9. Choose state -> city (Dependent Dropdowns)
+    # Click state dropdown - use more reliable selector
+    page.locator(state_ID).click()
+    # Wait for dropdown to open
+    page.wait_for_timeout(1000)
+    # Select state option using text content
+    page.get_by_text(user_data["state"], exact=True).click()
+    
+    # Wait for city options to load after state selection
+    page.wait_for_timeout(1000)
+    
+    # Click city dropdown
+    page.locator(city_ID).click()
+    # Wait for city dropdown to open
+    page.wait_for_timeout(1000)
+    # Select city option using text content
     page.get_by_text(user_data["city"], exact=True).click()
 
-    # 10. Gửi biểu mẫu
-    page.locator("#submit").click()
+    # 10. Submit the form
+    page.locator(submit_ID).click()
 
-    # 11. Xác thực kết quả trong Modal
-    # Chờ cho modal xuất hiện
+    # 11. Validate result in the modal
     modal_title = page.locator("#example-modal-sizes-title-lg")
     expect(modal_title).to_be_visible(timeout=5000)
     expect(modal_title).to_have_text("Thanks for submitting the form")
     
-    # Kiểm tra một vài giá trị quan trọng
-    student_name_row = page.locator("tbody tr", has_text="Student Name")
+    # Check important values in the result table
+    student_name_row = page.locator("tbody tr:has-text('Student Name')")
     expect(student_name_row).to_contain_text(f"{user_data['first_name']} {user_data['last_name']}")
     
-    email_row = page.locator("tbody tr", has_text="Student Email")
-    expect(email_row).to_contain_text(user_data["email"])
+    # Check previously problematic fields
+    subjects_row = page.locator("tbody tr:has-text('Subjects')")
+    expect(subjects_row).to_contain_text(", ".join(user_data["subjects"]))
 
-    # 12. Chụp ảnh màn hình kết quả
+    hobbies_row = page.locator("tbody tr:has-text('Hobbies')")
+    expect(hobbies_row).to_contain_text(", ".join(user_data["hobbies"]))
+
+    state_city_row = page.locator("tbody tr:has-text('State and City')")
+    expect(state_city_row).to_contain_text(f"{user_data['state']} {user_data['city']}")
+
+    # 12. Take screenshot of the result
     timestamp = time.strftime("%Y%m%d-%H%M%S")
     screenshot_path = f"reports/submission_result_{timestamp}.png"
     page.screenshot(path=screenshot_path)
     print(f"Screenshot saved to {screenshot_path}")
 
-    # 13. Đóng modal
+    # 13. Close the modal
     page.locator("#closeLargeModal").click()
