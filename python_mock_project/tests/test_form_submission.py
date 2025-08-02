@@ -325,7 +325,7 @@ def handle_test_failure(logger: FormTestLogger, error: Exception):
     logger.end_test(status="fail", missing_fields=failed_fields)
 
 
-def test_successful_form_submission(page: Page):
+def test_form_submission(page: Page):
     """
     Main test function that orchestrates the complete form submission test.
     
@@ -338,16 +338,18 @@ def test_successful_form_submission(page: Page):
         
         # Navigate to the page
         navigate_to_page(page)
-        
-        # Fill form sections
-        fill_basic_info(page, user_data)
-        select_gender(page, user_data["gender"])
-        select_date_of_birth(page, user_data["date_of_birth"])
+
+        # Fill harder form sections
         select_subjects(page, user_data["subjects"])
         select_hobbies(page, user_data["hobbies"])
         upload_picture(page, user_data["picture_path"])
         select_state_and_city(page, user_data["state"], user_data["city"])
         
+        # Fill form sections
+        fill_basic_info(page, user_data)
+        select_gender(page, user_data["gender"])
+        select_date_of_birth(page, user_data["date_of_birth"])
+
         # Validate filled data before submission
         validate_filled_data(page)
         
