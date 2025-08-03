@@ -15,6 +15,20 @@ if 'utils.data_generator' in sys.modules:
 # Target URL
 URL = "https://demoqa.com/automation-practice-form"
 
+first_name_ID = "#firstName"
+last_name_ID = "#lastName"
+user_email_ID = "#userEmail"
+user_number_ID = "#userNumber"
+date_of_birth_ID = "#dateOfBirthInput"
+subject_input_ID = "#subjectsInput"
+uoload_picture_ID = "#uploadPicture"
+state_ID = "#state"
+city_ID = "#city"
+current_address_ID = "#currentAddress"
+submit_ID = "#submit"
+close_large_modal_ID = "#closeLargeModal"
+
+
 
 def generate_and_validate_user_data():
     """
@@ -82,6 +96,13 @@ def navigate_to_page(page: Page):
     # Remove ads to avoid elements being hidden
     page.evaluate("() => { document.querySelectorAll('#adplus-anchor,.adsbygoogle').forEach(el => el.remove()); }")
 
+def fill_hard_info(page: Page, user_data: dict):
+    select_subjects(page, user_data["subjects"])
+    page.wait_for_timeout(2000)  # Small delay to ensure subject is added
+    select_hobbies(page, user_data["hobbies"])
+    page.wait_for_timeout(2000)  # Small delay to ensure subject is added
+    upload_picture(page, user_data["picture_path"])
+    select_state_and_city(page, user_data["state"], user_data["city"])
 
 def fill_basic_info(page: Page, user_data: dict):
     """
@@ -91,11 +112,11 @@ def fill_basic_info(page: Page, user_data: dict):
         page (Page): Playwright page instance
         user_data (dict): Dictionary containing user information
     """
-    page.locator("#firstName").fill(user_data["first_name"])
-    page.locator("#lastName").fill(user_data["last_name"])
-    page.locator("#userEmail").fill(user_data["email"])
-    page.locator("#userNumber").fill(user_data["mobile"])
-    page.locator("#currentAddress").fill(user_data["address"])
+    page.locator(first_name_ID).fill(user_data["first_name"])
+    page.locator(last_name_ID).fill(user_data["last_name"])
+    page.locator(user_email_ID).fill(user_data["email"])
+    page.locator(user_number_ID).fill(user_data["mobile"])
+    page.locator(current_address_ID).fill(user_data["address"])
 
 
 def select_gender(page: Page, gender: str):
@@ -126,7 +147,7 @@ def select_date_of_birth(page: Page, date_of_birth):
         date_of_birth: Date object representing the birth date
     """
     dob_string = date_of_birth.strftime('%d %b %Y')
-    page.locator("#dateOfBirthInput").fill(dob_string)
+    page.locator(date_of_birth_ID).fill(dob_string)
     page.keyboard.press("Enter")
 
 
@@ -139,13 +160,17 @@ def select_subjects(page: Page, subjects: list):
         subjects (list): List of subject names to select
     """
     print(f"=== Filling Subjects: {subjects} ===")
-    subjects_input = page.locator("#subjectsInput")
+    subjects_input = page.locator(subject_input_ID)
     for subject in subjects:
         print(f"Filling subject: {subject}")
-        subjects_input.fill(subject)
+        subjects_input.click()
+        page.wait_for_timeout(500)  # Wait after click
+        # Using fill() then Enter cause Autocomplete not working -> Missing a subject
+        # Using type() with delay ensure dropdown available to choose by Enter
+        subjects_input.type(subject, delay=50) 
+        page.wait_for_timeout(1000)  # Wait for autocomplete dropdown
         subjects_input.press("Enter")
-        page.wait_for_timeout(2000)  # Small delay to ensure subject is added
-
+        page.wait_for_timeout(2000)  # Wait for subject to be added
 
 def select_hobbies(page: Page, hobbies: list):
     """
@@ -165,14 +190,14 @@ def select_hobbies(page: Page, hobbies: list):
     }
     
     # Scroll submit button into view to avoid element not visible/stable error
-    page.locator("#submit").scroll_into_view_if_needed()
+    page.locator(submit_ID).scroll_into_view_if_needed()
     
     for hobby in hobbies:
         if hobby in hobby_label_mapping:
             print(f"Clicking hobby: {hobby}")
             # Use force=True to make sure clickable even if being hidden
             page.locator(hobby_label_mapping[hobby]).click(force=True)
-            page.wait_for_timeout(1000)  # Small delay
+            page.wait_for_timeout(2000)  # Small delay
 
 
 def upload_picture(page: Page, picture_path: str):
@@ -183,7 +208,7 @@ def upload_picture(page: Page, picture_path: str):
         page (Page): Playwright page instance
         picture_path (str): Path to the picture file to upload
     """
-    page.locator("#uploadPicture").set_input_files(picture_path)
+    page.locator(uoload_picture_ID).set_input_files(picture_path)
 
 
 def select_state_and_city(page: Page, state: str, city: str):
@@ -198,7 +223,7 @@ def select_state_and_city(page: Page, state: str, city: str):
     print(f"=== Filling State: {state}, City: {city} ===")
     
     # Click state dropdown
-    page.locator("#state").click()
+    page.locator(state_ID).click()
     page.wait_for_timeout(2000)  # Wait for dropdown to open
     
     # Select state option using text content
@@ -209,7 +234,7 @@ def select_state_and_city(page: Page, state: str, city: str):
     page.wait_for_timeout(2000)
     
     # Click city dropdown
-    page.locator("#city").click()
+    page.locator(city_ID).click()
     page.wait_for_timeout(2000)  # Wait for city dropdown to open
     
     # Select city option using text content
@@ -248,7 +273,7 @@ def submit_form_and_validate_result(page: Page, user_data: dict):
         user_data (dict): Dictionary containing user information for validation
     """
     # Submit the form
-    page.locator("#submit").click()
+    page.locator(submit_ID).click()
     
     # Validate result in the modal
     modal_title = page.locator("#example-modal-sizes-title-lg")
@@ -281,7 +306,7 @@ def take_screenshot(page: Page):
         str: Path to the saved screenshot
     """
     timestamp = time.strftime("%Y%m%d-%H%M%S")
-    screenshot_path = f"reports/submission_result_{timestamp}.png"
+    screenshot_path = f"screenshots/submission_result_{timestamp}.png"
     page.screenshot(path=screenshot_path)
     print(f"Screenshot saved to {screenshot_path}")
     return screenshot_path
@@ -294,7 +319,7 @@ def close_modal(page: Page):
     Args:
         page (Page): Playwright page instance
     """
-    page.locator("#closeLargeModal").click()
+    page.locator(close_large_modal_ID).click()
 
 
 def handle_test_failure(logger: FormTestLogger, error: Exception):
@@ -340,12 +365,9 @@ def test_form_submission(page: Page):
         navigate_to_page(page)
 
         # Fill harder form sections
-        select_subjects(page, user_data["subjects"])
-        select_hobbies(page, user_data["hobbies"])
-        upload_picture(page, user_data["picture_path"])
-        select_state_and_city(page, user_data["state"], user_data["city"])
+        fill_hard_info(page, user_data)
         
-        # Fill form sections
+        # Fill basic form sections
         fill_basic_info(page, user_data)
         select_gender(page, user_data["gender"])
         select_date_of_birth(page, user_data["date_of_birth"])
