@@ -159,5 +159,11 @@ def log_test_result(start_time: datetime, end_time: datetime,
     logger.missing_fields = missing_fields or []
     logger._write_to_csv()
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
+    # Test logger functionality
+    from datetime import datetime
+    logger = FormTestLogger()
+    test_data = {"first_name": "Test", "last_name": "User"}
+    logger.start_test(test_data)
+    logger.end_test(status="success")
     
