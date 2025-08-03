@@ -7,8 +7,6 @@ import json
 
 #Init Faker to create fake data
 fake = Faker('en_US')
-random_seed = random.seed()
-Faker.seed(random_seed)
 
 def generate_user_profile():
     """
