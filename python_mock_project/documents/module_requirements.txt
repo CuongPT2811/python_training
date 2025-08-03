@@ -1,1 +1,25 @@
-#Module used for Python mock project
+
+# Core Testing Framework
+pytest==7.4.3              # Python testing framework
+
+# Web Automation
+playwright==1.40.0          # Browser automation library for testing
+
+# Data Generation
+Faker==19.12.0              # Library for generating fake data for testing
+
+# Standard Library Modules (built-in with Python, no installation needed)
+#
+# argparse                  # Command-line argument parsing
+# csv                       # CSV file reading and writing  
+# datetime                  # Date and time handling
+# json                      # JSON data handling
+# os                        # Operating system interface
+# random                    # Generate random numbers
+# sys                       # System-specific parameters and functions
+# time                      # Time-related functions
+# importlib                 # Import utilities
+
+# Note: After installing requirements, run:
+# playwright install
+# This downloads the browser binaries needed for testing
