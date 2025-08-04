@@ -7,14 +7,15 @@ import importlib
 import sys
 import random
 
-# Force reload data_generator module to avoid caching
+#Force reload data_generator module to avoid caching
 if 'utils.data_generator' in sys.modules:
     importlib.reload(sys.modules['utils.data_generator'])
     from utils.data_generator import generate_user_profile
 
-# Target URL
+#Target URL
 URL = "https://demoqa.com/automation-practice-form"
 
+#ID for locators
 first_name_ID = "#firstName"
 last_name_ID = "#lastName"
 user_email_ID = "#userEmail"
@@ -29,7 +30,6 @@ submit_ID = "#submit"
 close_large_modal_ID = "#closeLargeModal"
 
 
-
 def generate_and_validate_user_data():
     """
     Generate random user profile data and validate it.
@@ -42,17 +42,13 @@ def generate_and_validate_user_data():
     """
     logger = FormTestLogger()
     
-    print("=== Before generating data ===")
-    
-    # Reset random seed to ensure different data each time
+    #Reset random seed to ensure different data each time
     random.seed()
     
     print(f"Current timestamp: {time.time()}")
-    print(f"Random state before: {random.getstate()[1][0]}")
-    
+
     user_data = generate_user_profile()
-    
-    print(f"Random state after: {random.getstate()[1][0]}")
+
     print("=== Generated User Data ===")
     print(f"First Name: {user_data.get('first_name', 'MISSING')}")
     print(f"Last Name: {user_data.get('last_name', 'MISSING')}")
@@ -68,10 +64,10 @@ def generate_and_validate_user_data():
     print(f"Picture Path: {user_data.get('picture_path', 'MISSING')}")
     print("==========================")
     
-    # Start test logging
+    #Start test logging
     logger.start_test(user_data)
     
-    # Validate user data
+    #Validate user data
     is_valid, missing_fields = logger.validate_form_data(user_data)
     print(f"=== Validation Result ===")
     print(f"Is Valid: {is_valid}")
@@ -84,7 +80,6 @@ def generate_and_validate_user_data():
     
     return user_data, logger, (is_valid, missing_fields)
 
-
 def navigate_to_page(page: Page):
     """
     Navigate to the target URL and remove ads that might interfere with elements.
@@ -93,14 +88,14 @@ def navigate_to_page(page: Page):
         page (Page): Playwright page instance
     """
     page.goto(URL)
-    # Remove ads to avoid elements being hidden
+    #Remove ads to avoid elements being hidden
     page.evaluate("() => { document.querySelectorAll('#adplus-anchor,.adsbygoogle').forEach(el => el.remove()); }")
 
 def fill_hard_info(page: Page, user_data: dict):
     select_subjects(page, user_data["subjects"])
-    page.wait_for_timeout(2000)  # Small delay to ensure subject is added
+    page.wait_for_timeout(2000)  #Small delay to ensure subject is added
     select_hobbies(page, user_data["hobbies"])
-    page.wait_for_timeout(2000)  # Small delay to ensure subject is added
+    page.wait_for_timeout(2000)  #Small delay to ensure subject is added
     upload_picture(page, user_data["picture_path"])
     select_state_and_city(page, user_data["state"], user_data["city"])
 
@@ -118,7 +113,6 @@ def fill_basic_info(page: Page, user_data: dict):
     page.locator(user_number_ID).fill(user_data["mobile"])
     page.locator(current_address_ID).fill(user_data["address"])
 
-
 def select_gender(page: Page, gender: str):
     """
     Select gender radio button based on the provided gender value.
@@ -127,7 +121,7 @@ def select_gender(page: Page, gender: str):
         page (Page): Playwright page instance
         gender (str): Gender value ("Male", "Female", or "Other")
     """
-    # Map gender to corresponding radio button labels
+    #Map gender to corresponding radio button labels
     gender_label_mapping = {
         "Male": "label[for='gender-radio-1']",
         "Female": "label[for='gender-radio-2']",
@@ -136,7 +130,6 @@ def select_gender(page: Page, gender: str):
     
     if gender in gender_label_mapping:
         page.locator(gender_label_mapping[gender]).click()
-
 
 def select_date_of_birth(page: Page, date_of_birth):
     """
@@ -149,7 +142,6 @@ def select_date_of_birth(page: Page, date_of_birth):
     dob_string = date_of_birth.strftime('%d %b %Y')
     page.locator(date_of_birth_ID).fill(dob_string)
     page.keyboard.press("Enter")
-
 
 def select_subjects(page: Page, subjects: list):
     """
@@ -164,13 +156,13 @@ def select_subjects(page: Page, subjects: list):
     for subject in subjects:
         print(f"Filling subject: {subject}")
         subjects_input.click()
-        page.wait_for_timeout(500)  # Wait after click
-        # Using fill() then Enter cause Autocomplete not working -> Missing a subject
-        # Using type() with delay ensure dropdown available to choose by Enter
+        page.wait_for_timeout(500)  #Wait after click
+        #Using fill() then Enter cause Autocomplete not working -> Missing a subject
+        #Using type() with delay ensure dropdown available to choose by Enter
         subjects_input.type(subject, delay=50) 
-        page.wait_for_timeout(1000)  # Wait for autocomplete dropdown
+        page.wait_for_timeout(1000)  #Wait for autocomplete dropdown
         subjects_input.press("Enter")
-        page.wait_for_timeout(2000)  # Wait for subject to be added
+        page.wait_for_timeout(2000)  #Wait for subject to be added
 
 def select_hobbies(page: Page, hobbies: list):
     """
@@ -182,23 +174,22 @@ def select_hobbies(page: Page, hobbies: list):
     """
     print(f"=== Filling Hobbies: {hobbies} ===")
     
-    # Map hobbies to corresponding checkbox labels
+    #Map hobbies to corresponding checkbox labels
     hobby_label_mapping = {
         "Sports": "label[for='hobbies-checkbox-1']",
         "Reading": "label[for='hobbies-checkbox-2']",
         "Music": "label[for='hobbies-checkbox-3']"
     }
     
-    # Scroll submit button into view to avoid element not visible/stable error
+    #Scroll submit button into view to avoid element not visible/stable error
     page.locator(submit_ID).scroll_into_view_if_needed()
     
     for hobby in hobbies:
         if hobby in hobby_label_mapping:
             print(f"Clicking hobby: {hobby}")
-            # Use force=True to make sure clickable even if being hidden
+            #Use force=True to make sure clickable even if being hidden
             page.locator(hobby_label_mapping[hobby]).click(force=True)
-            page.wait_for_timeout(2000)  # Small delay
-
+            page.wait_for_timeout(2000)  #Small delay
 
 def upload_picture(page: Page, picture_path: str):
     """
@@ -209,7 +200,6 @@ def upload_picture(page: Page, picture_path: str):
         picture_path (str): Path to the picture file to upload
     """
     page.locator(uoload_picture_ID).set_input_files(picture_path)
-
 
 def select_state_and_city(page: Page, state: str, city: str):
     """
@@ -222,25 +212,24 @@ def select_state_and_city(page: Page, state: str, city: str):
     """
     print(f"=== Filling State: {state}, City: {city} ===")
     
-    # Click state dropdown
+    #Click state dropdown
     page.locator(state_ID).click()
-    page.wait_for_timeout(2000)  # Wait for dropdown to open
+    page.wait_for_timeout(2000)  #Wait for dropdown to open
     
-    # Select state option using text content
+    #Select state option using text content
     print(f"Selecting state: {state}")
     page.get_by_text(state, exact=True).click()
     
-    # Wait for city options to load after state selection
+    #Wait for city options to load after state selection
     page.wait_for_timeout(2000)
     
-    # Click city dropdown
+    #Click city dropdown
     page.locator(city_ID).click()
-    page.wait_for_timeout(2000)  # Wait for city dropdown to open
+    page.wait_for_timeout(2000)  #Wait for city dropdown to open
     
-    # Select city option using text content
+    #Select city option using text content
     print(f"Selecting city: {city}")
     page.get_by_text(city, exact=True).click()
-
 
 def validate_filled_data(page: Page):
     """
@@ -251,7 +240,7 @@ def validate_filled_data(page: Page):
     """
     print("=== Before submitting, checking filled values ===")
     
-    # Check if important fields are actually filled
+    #Check if important fields are actually filled
     filled_subjects = page.locator("#subjectsContainer .subjects-auto-complete__multi-value__label").count()
     filled_hobbies = page.locator("input[type='checkbox'][id^='hobbies-checkbox']:checked").count()
     filled_state = page.locator("#state .css-1uccc91-singleValue").text_content()
@@ -263,7 +252,6 @@ def validate_filled_data(page: Page):
     print(f"Filled city: {filled_city}")
     print("=============================================")
 
-
 def submit_form_and_validate_result(page: Page, user_data: dict):
     """
     Submit the form and validate the result in the modal dialog.
@@ -272,19 +260,19 @@ def submit_form_and_validate_result(page: Page, user_data: dict):
         page (Page): Playwright page instance
         user_data (dict): Dictionary containing user information for validation
     """
-    # Submit the form
+    #Submit the form
     page.locator(submit_ID).click()
     
-    # Validate result in the modal
+    #Validate result in the modal
     modal_title = page.locator("#example-modal-sizes-title-lg")
     expect(modal_title).to_be_visible(timeout=5000)
     expect(modal_title).to_have_text("Thanks for submitting the form")
     
-    # Check important values in the result table
+    #Check important values in the result table
     student_name_row = page.locator("tbody tr:has-text('Student Name')")
     expect(student_name_row).to_contain_text(f"{user_data['first_name']} {user_data['last_name']}")
     
-    # Check previously problematic fields
+    #Check previously problematic fields
     subjects_row = page.locator("tbody tr:has-text('Subjects')")
     expect(subjects_row).to_contain_text(", ".join(user_data["subjects"]))
 
@@ -293,7 +281,6 @@ def submit_form_and_validate_result(page: Page, user_data: dict):
 
     state_city_row = page.locator("tbody tr:has-text('State and City')")
     expect(state_city_row).to_contain_text(f"{user_data['state']} {user_data['city']}")
-
 
 def take_screenshot(page: Page):
     """
@@ -311,7 +298,6 @@ def take_screenshot(page: Page):
     print(f"Screenshot saved to {screenshot_path}")
     return screenshot_path
 
-
 def close_modal(page: Page):
     """
     Close the result modal dialog.
@@ -320,7 +306,6 @@ def close_modal(page: Page):
         page (Page): Playwright page instance
     """
     page.locator(close_large_modal_ID).click()
-
 
 def handle_test_failure(logger: FormTestLogger, error: Exception):
     """
@@ -333,10 +318,10 @@ def handle_test_failure(logger: FormTestLogger, error: Exception):
     error_message = str(error)
     print(f"Test failed with error: {error_message}")
     
-    # Try to determine which fields might be missing/problematic
+    #Store fields that might cause failure tests
     failed_fields = []
     
-    # Check if it's a validation error
+    #Check if it's a validation/submission/fields error
     if "validation" in error_message.lower():
         failed_fields = ["Form validation failed"]
     elif "modal" in error_message.lower() or "submit" in error_message.lower():
@@ -346,9 +331,8 @@ def handle_test_failure(logger: FormTestLogger, error: Exception):
     else:
         failed_fields = ["Unknown error"]
     
-    # Log the failure
+    #Log the failure
     logger.end_test(status="fail", missing_fields=failed_fields)
-
 
 def test_form_submission(page: Page):
     """
@@ -358,39 +342,39 @@ def test_form_submission(page: Page):
         page (Page): Playwright page instance
     """
     try:
-        # Generate and validate user data
+        #Generate and validate user data
         user_data, logger, _ = generate_and_validate_user_data()
         
-        # Navigate to the page
+        #Navigate to the page
         navigate_to_page(page)
 
-        # Fill harder form sections
+        #Fill harder form sections
         fill_hard_info(page, user_data)
         
-        # Fill basic form sections
+        #Fill basic form sections
         fill_basic_info(page, user_data)
         select_gender(page, user_data["gender"])
         select_date_of_birth(page, user_data["date_of_birth"])
 
-        # Validate filled data before submission
+        #Validate filled data before submission
         validate_filled_data(page)
         
-        # Submit form and validate result
+        #Submit form and validate result
         submit_form_and_validate_result(page, user_data)
         
-        # Take screenshot
+        #Take screenshot
         take_screenshot(page)
         
-        # Close modal
+        #Close modal
         close_modal(page)
         
-        # Log success
+        #Log success
         logger.end_test(status="success")
         
     except Exception as e:
-        # Handle any errors during test execution
+        #Handle any errors during test execution
         handle_test_failure(logger, e)
-        # Re-raise the exception to fail the test
+        #Re-raise the exception to fail the test
         raise
 
 
