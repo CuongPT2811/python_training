@@ -19,10 +19,10 @@ class FormTestLogger:
         self.missing_fields = []
         self.user_data = {}
         
-        # Ensure reports directory exists
+        #Ensure reports directory exists
         os.makedirs(os.path.dirname(log_file_path), exist_ok=True)
         
-        # Create CSV file with headers if it doesn't exist
+        #Create CSV file with headers if it doesn't exist
         if not os.path.exists(log_file_path):
             self._create_csv_file()
     
@@ -73,7 +73,7 @@ class FormTestLogger:
         if missing_fields:
             print(f"Missing fields: {', '.join(missing_fields)}")
         
-        # Write to CSV
+        #Write to CSV
         self._write_to_csv(error_message)
     
     def _write_to_csv(self, error_message: str = ""):
@@ -92,7 +92,7 @@ class FormTestLogger:
             ', '.join(self.missing_fields) if self.missing_fields else ""
         ]
         
-        # Write to CSV
+        #Write to CSV
         with open(self.log_file_path, 'a', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
             writer.writerow(row_data)
@@ -128,10 +128,10 @@ class FormTestLogger:
         for field_key, field_name in required_fields.items():
             value = user_data.get(field_key)
             
-            # Check if field is missing or empty
+            #Check if field is missing or empty
             if not value:
                 missing_fields.append(field_name)
-            # Special check for lists (subjects, hobbies)
+            #Special check for lists (subjects, hobbies)
             elif isinstance(value, list) and len(value) == 0:
                 missing_fields.append(field_name)
         
@@ -139,28 +139,8 @@ class FormTestLogger:
         return is_valid, missing_fields
 
 
-def log_test_result(start_time: datetime, end_time: datetime, 
-                   status: str, missing_fields: List[str] = None,
-                   log_file_path: str = "reports/test_submission_log.csv"):
-    """
-    Standalone function to log test results (alternative to class usage)
-    
-    Args:
-        start_time: Test start datetime
-        end_time: Test end datetime  
-        status: Test status ("success" or "fail")
-        missing_fields: List of missing/failed fields
-        log_file_path: Path to CSV log file
-    """
-    logger = FormTestLogger(log_file_path)
-    logger.start_time = start_time
-    logger.end_time = end_time
-    logger.test_status = status
-    logger.missing_fields = missing_fields or []
-    logger._write_to_csv()
-
 if __name__ == "__main__":
-    # Test logger functionality
+    #Test logger functionality
     from datetime import datetime
     logger = FormTestLogger()
     test_data = {"first_name": "Test", "last_name": "User"}
