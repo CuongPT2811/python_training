@@ -1,124 +1,32 @@
 # Form Submission Test Automation
 
-Công cụ tự động hóa test form submission sử dụng Playwright và Python. Dự án này giúp test form trên website DemoQA một cách tự động với nhiều tùy chọn linh hoạt.
+Form submission test automation tool using Playwright and Python. This project helps to test forms on the DemoQA website automatically with many flexible options.
 
-## Tính năng chính
+## Author
+Created by **CuongPT24** - Project practice Python automation testing
 
-- **Nhiều chế độ chạy test**: Direct mode, Pytest mode, Menu tương tác
-- **Cross-browser testing**: Hỗ trợ Chromium, Firefox, WebKit
-- **Headless/Headed mode**: Có thể chạy ẩn hoặc hiển thị browser
-- **Multiple test runs**: Chạy test nhiều lần với delay tùy chỉnh
-- **Random data generation**: Tự động tạo dữ liệu giả để test
-- **Logging & Reporting**: Ghi log chi tiết và lưu screenshot
-- **CLI interface**: Giao diện dòng lệnh thân thiện
+**Disclaimer**: This is a studying project for testing submission in demoqa. 
 
-## Công nghệ sử dụng
+## Main features
 
-Chi tiết các package và version xem trong `requirements.txt`:
+- **Multiple test mode**: Direct mode, Pytest mode, Interactive Menu
+- **Cross-browser testing**: Suppor Chromium, Firefox, WebKit
+- **Headless/Headed mode**: Can run with hidden browser or with interface
+- **Multiple test runs**: Run multiple test with delay between test
+- **Random data generation**: Auto generate fake data to test
+- **Logging & Reporting**: Detail log record and screenshots for successful submission
+- **CLI interface**: Command line interface with flexible options
 
-- **Python 3.8+**: Ngôn ngữ lập trình chính
-- **Playwright**: Framework tự động hóa browser
+## Technical stacks
+
+For detail packages and version, please read `requirements.txt`:
+- **Python 3.8+**: Main programming language
+- **Playwright**: Framework for automation browser
 - **Pytest**: Framework testing
-- **Faker**: Thư viện tạo dữ liệu giả
+- **Faker**: Library to generate fake data
 
-## Cài đặt
 
-### Bước 1: Yêu cầu hệ thống
-- Python 3.8 trở lên
-- pip package manager
-- Git (để clone project)
-
-### Bước 2: Clone project
-```bash
-git clone <url-project-của-bạn>
-cd form-submission-test
-```
-
-### Bước 3: Tạo virtual environment (khuyến nghị)
-```bash
-# Tạo virtual environment
-python -m venv venv
-
-# Kích hoạt virtual environment
-# Windows:
-venv\Scripts\activate
-# macOS/Linux:
-source venv/bin/activate
-```
-
-### Bước 4: Cài đặt dependencies
-```bash
-# Cài đặt các package từ requirements.txt
-pip install -r requirements.txt
-
-# Cài đặt browsers cho Playwright
-playwright install
-```
-
-### Bước 5: Kiểm tra cài đặt
-```bash
-# Kiểm tra Python và pip
-python --version
-pip --version
-
-# Kiểm tra Playwright
-playwright --version
-```
-
-## Hướng dẫn sử dụng
-
-### Chạy lần đầu tiên (Menu tương tác)
-```bash
-python main/main_program.py
-```
-Chương trình sẽ hiển thị menu cho bạn chọn cách chạy test.
-
-### Các cách chạy khác
-
-#### 1. Chạy trực tiếp (Direct mode)
-```bash
-python main/main_program.py --mode direct
-```
-
-#### 2. Chạy với pytest
-```bash
-python main/main_program.py --mode pytest
-```
-
-#### 3. Chạy ẩn browser (nhanh hơn)
-```bash
-python main/main_program.py --mode direct --headless
-```
-
-#### 4. Chạy nhiều lần với delay
-```bash
-python main/main_program.py --mode direct --count 5 --delay 3
-```
-
-#### 5. Chạy với browser khác
-```bash
-python main/main_program.py --mode direct --browser firefox
-```
-
-#### 6. Hiển thị thông tin chi tiết
-```bash
-python main/main_program.py --mode direct --verbose
-```
-
-### Xem tất cả options
-```bash
-python main/main_program.py --help
-```
-
-## Kết quả test
-
-Sau khi chạy test, bạn sẽ thấy:
-
-1. **Console output**: Kết quả real-time trong terminal
-2. **CSV log**: File `reports/test_submission_log.csv` chứa lịch sử test
-3. **Screenshots**: Ảnh chụp màn hình kết quả trong `reports/`
-
-## Cấu trúc project
+## Project structure
 
 ```
 project/
@@ -129,20 +37,117 @@ project/
 │   └── main_program.py          # Main program
 ├── tests/
 │   ├── conftest.py              # Pytest fixtures
-│   └── test_form_submission.py  # Test logic chính
+│   └── test_form_submission.py  # Test main logic
 ├── utils/
-│   ├── cli_parser.py            # Xử lý CLI arguments
-│   ├── data_generator.py        # Tạo dữ liệu giả
+│   ├── cli_parser.py            # Handles CLI arguments
+│   ├── data_generator.py        # Generates fake data
 │   └── log_submission_result.py # Logging functionality
 ├── screenshots/
 │   └── .png                     # Screenshots
 └── reports/                    
-    └── test_submission_log.csv  # Kết quả test
+    └── test_submission_log.csv  # Test result
 ```
+
+## Installing
+
+### Step 1: System requirements
+- Python 3.8 or above
+- pip package manager
+- Git (to clone project)
+
+### Step 2: Clone project
+```bash
+git clone <'https://github.com/CuongPT2811/python_training/tree/main/python_mock_project'>
+cd python_mock_project 
+```
+
+### Step 3: Create virtual environment 
+```bash
+# Create virtual environment
+python -m venv .venv
+
+# Activate virtual environment
+# Windows:
+venv\Scripts\activate
+# macOS/Linux:
+source .venv/bin/activate
+```
+
+### Step 4: Install dependencies
+```bash
+# Install packages from requirements.txt
+pip install -r requirements.txt
+
+# Install browsers for Playwright
+playwright install
+```
+
+### Step 5: Checking installation
+```bash
+# Check Python and pip version
+python --version
+pip --version
+
+# Check Playwright version
+playwright --version
+```
+
+## Usage Guide
+
+### First time running 
+```bash
+python main/main_program.py
+```
+The program will display interactive menu for you to choose how to run test
+
+### Other run modes
+
+#### 1. Direct mode
+```bash
+python main/main_program.py --mode direct
+```
+
+#### 2. Pytest mode
+```bash
+python main/main_program.py --mode pytest
+```
+
+#### 3. Run hidden browser
+```bash
+python main/main_program.py --mode direct --headless
+```
+
+#### 4. Run multiple times with delay
+```bash
+python main/main_program.py --mode direct --count 5 --delay 3
+```
+
+#### 5. Run with different browser
+```bash
+python main/main_program.py --mode direct --browser firefox
+```
+
+#### 6. Display detail information
+```bash
+python main/main_program.py --mode direct --verbose
+```
+
+### See all options
+```bash
+python main/main_program.py --help
+```
+
+## Test result
+
+After running the test, you might able to view:
+
+1. **Console output**: Real-time result in terminal
+2. **CSV log**: File `reports/test_submission_log.csv` contains test submissions.
+3. **Screenshots**: Screenshots successful submission in `screenshots/`
 
 ## Troubleshooting
 
-### Lỗi thường gặp
+### Common errors
 
 1. **ModuleNotFoundError: No module named 'playwright'**
    ```bash
@@ -156,45 +161,41 @@ project/
    ```
 
 3. **Permission denied**
-   - Windows: Chạy cmd as Administrator
-   - macOS/Linux: Dùng `sudo` nếu cần
+   - Windows: Run cmd as Administrator
+   - macOS/Linux: Use `sudo` if needed
 
-4. **Test fail ngẫu nhiên**
-   - Thử chạy với `--delay 2` để tăng thời gian chờ
-   - Kiểm tra kết nối internet
+4. **Test fail**
+   - Run `--delay 2` to increase delay time between test
+   - Check internet connection
 
 ### Debug
 
-Để debug khi test fail:
+For debugging when test fail:
 ```bash
-# Chạy với verbose để xem chi tiết
+# Run with verbose for detail
 python main/main_program.py --mode direct --verbose
 
-# Chạy không headless để xem browser
-python main/main_program.py --mode direct --headless false
+# Run headed to see browser
+python main/main_program.py --mode direct 
 ```
 
-## Phát triển thêm
+## Further developments
 
-### Thêm tính năng mới
+### More functions
 1. Fork project
-2. Tạo branch mới: `git checkout -b feature/ten-tinh-nang`
-3. Code và test
-4. Commit: `git commit -m "Add: mô tả tính năng"`
-5. Push và tạo Pull Request
+2. Create new branch: `git checkout -b utils/new_features`
+3. Code and test
+4. Commit: `git commit -m "Add: feature description"`
+5. Push and create Pull Request
 
-### Chạy test development
+### Run test development
 ```bash
-# Test riêng data generator
+# Test data generator
 python utils/data_generator.py
 
-# Test riêng CLI parser
+# Test CLI parser
 python utils/cli_parser.py
 
-# Chạy pytest trực tiếp
-pytest tests/test_form_submission.py -v
+# Run pytest directly
+pytest tests/test_form_submission.py -v -s 
 ```
-## Tác giả
-Tạo bởi CuongPT24 - Dự án thực hành Python automation testing
-
-**Lưu ý**: Đây là project học tập, chỉ test trên trang demoqa.
