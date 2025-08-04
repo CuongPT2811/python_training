@@ -2,13 +2,13 @@ import argparse
 
 def create_parser():
     """
-    Tạo argument parser với các options đơn giản
+    Create argument parsers with simple options
     """
     parser = argparse.ArgumentParser(
-        description="Chương trình test form submission",
+        description="Test form submission program",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
-Ví dụ sử dụng:
+Usage examples:
   python main/main_program.py --mode direct --headless
   python main/main_program.py --mode pytest --verbose
   python main/main_program.py --mode direct --count 5
@@ -18,64 +18,64 @@ Ví dụ sử dụng:
         """
     )
     
-    # Option chọn cách chạy test
+    #Option to choose test mode 
     parser.add_argument(
         '--mode',
         choices=['direct', 'pytest', 'menu'],
         default='menu',
-        help='Cách chạy test: direct (trực tiếp), pytest (với pytest), menu (hiển thị menu lựa chọn)'
+        help='How to run: direct, pytest (with pytest), menu (display choose menu)'
     )
     
-    # Option chạy ẩn browser
+    #Option to run hidden browser
     parser.add_argument(
         '--headless',
         action='store_true',
-        help='Chạy browser ẩn (không hiển thị giao diện)'
+        help='Run hidden browser (no interface display)'
     )
     
-    # Option hiển thị chi tiết
+    #Option to display detail information
     parser.add_argument(
         '--verbose',
         action='store_true',
-        help='Hiển thị thông tin chi tiết khi chạy'
+        help='Display detail information while running'
     )
     
-    # Option chọn browser
+    #Option to choose browser
     parser.add_argument(
         '--browser',
         choices=['chromium', 'firefox', 'webkit'],
         default='chromium',
-        help='Loại browser sử dụng (mặc định: chromium)'
+        help='Browser used (default: chromium)'
     )
     
-    # Option chạy nhiều lần
+    #Option to run multiple time 
     parser.add_argument(
         '--count',
         type=int,
         default=1,
-        help='Số lần chạy test (mặc định: 1)'
+        help='Time to run test (default: 1)'
     )
     
-    # Option tạm dừng giữa các lần chạy
+    #Option to delay between tests
     parser.add_argument(
         '--delay',
         type=int,
         default=0,
-        help='Số giây tạm dừng giữa các lần chạy test (mặc định: 0)'
+        help='Seconds delay between test (default: 0)'
     )
     
     return parser
 
 def parse_arguments():
     """
-    Parse arguments và trả về kết quả
+    Parse arguments and return result
     """
     parser = create_parser()
     args = parser.parse_args()
     
-    # Hiển thị thông tin nếu verbose
+    #Display information if --verbose
     if args.verbose:
-        print("=== Thông tin cấu hình ===")
+        print("=== Configuration ===")
         print(f"Mode: {args.mode}")
         print(f"Headless: {args.headless}")
         print(f"Browser: {args.browser}")
@@ -88,33 +88,33 @@ def parse_arguments():
 
 def get_user_choice_from_menu():
     """
-    Hiển thị menu và nhận lựa chọn từ user (giống như code cũ)
+    Display menu and get choice from user
     """
-    print("Chọn cách chạy test:")
-    print("1. Chạy trực tiếp (không cần pytest)")
-    print("2. Chạy với pytest")
+    print("Choose run mode for test:")
+    print("1. Direct mode")
+    print("2. Run with pytest")
     
     while True:
-        choice = input("Nhập lựa chọn (1 hoặc 2): ").strip()
+        choice = input("Enter your choice (1 or 2): ").strip()
         if choice == "1":
             return "direct"
         elif choice == "2":
             return "pytest"
         else:
-            print("Lựa chọn không hợp lệ! Vui lòng nhập 1 hoặc 2.")
+            print("Invalid choice! Please enter 1 or 2.")
 
 def get_final_mode(args):
     """
-    Xác định mode cuối cùng dựa trên arguments
+    Determine final mode base on arguments
     """
     if args.mode == "menu":
-        # Nếu chọn menu, hiển thị menu cho user chọn
+        #If choosing menu, display the menu
         return get_user_choice_from_menu()
     else:
-        # Nếu đã chọn mode cụ thể, dùng luôn
+        #If a mode choosen, run
         return args.mode
     
 if __name__ == "__main__":
-    # Test các function parser
+    #Test parser function
     args = parse_arguments()
     print("Parsed arguments:", vars(args))
